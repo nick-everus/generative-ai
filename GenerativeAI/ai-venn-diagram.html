@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Types Venn Diagram</title>
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/venn.js/0.2.20/venn.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            background-color: #1e1e1e; /* Dark background */
+            font-family: Arial, sans-serif;
+            color: white;
+        }
+        #venn {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .label {
+            font-size: 14px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<div id="venn"></div>
+
+<script>
+    // Data for the Venn diagram - AI types with intersections
+    var sets = [
+        { sets: ['ML'], size: 50 },
+        { sets: ['DL'], size: 40 },
+        { sets: ['NLP'], size: 30 },
+        { sets: ['ML', 'DL'], size: 20 },
+        { sets: ['ML', 'NLP'], size: 15 },
+        { sets: ['DL', 'NLP'], size: 10 },
+        { sets: ['ML', 'DL', 'NLP'], size: 5 }
+    ];
+
+    // Create a Venn diagram in the #venn div
+    var chart = venn.VennDiagram().width(600).height(600);
+    var div = d3.select("#venn");
+    div.datum(sets).call(chart);
+
+    // Style the diagram
+    div.selectAll("path")
+        .style("fill-opacity", 0.6)
+        .style("stroke", "#fff")
+        .style("stroke-width", 2);
+
+    // Style the labels
+    div.selectAll("text")
+        .style("fill", "white")
+        .style("font-size", "14px")
+        .style("font-weight", "bold");
+</script>
+
+</body>
+</html>
