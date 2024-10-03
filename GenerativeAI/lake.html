@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Boat on a Lake - Three.js Scene</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+        }
+        canvas {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+<script>
+    // Create the scene
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color(0xbfd1e5); // Light blue sky background
+
+    // Create a camera
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera.position.set(0, 10, 25); // Move the camera back a bit to view the lake
+
+    // Create a renderer
+    const renderer = new THREE.WebGLRenderer();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    document.body.appendChild(renderer.domElement);
+
+    // Add lighting
+    const light = new THREE.DirectionalLight(0xffffff, 1);
+    light.position.set(10, 20, 10);
+    scene.add(light);
+
+    const ambientLight = new THREE.AmbientLight(0x404040); // soft light
+    scene.add(ambientLight);
+
+    // Create the lake (PlaneGeometry)
+    const lakeGeometry = new THREE.PlaneGeometry(50, 50);
+    const lakeMaterial = new THREE.MeshPhongMaterial({ color: 0x1e90ff, side: THREE.DoubleSide });
+    const lake = new THREE.Mesh(lakeGeometry, lakeMaterial);
+    lake.rotation.x = -Math.PI / 2; // Rotate the lake to make it flat
+    scene.add(lake);
+
+    // Create a simple boat (BoxGeometry)
+    const boatGeometry = new THREE.BoxGeometry(3, 1, 1);
+    const boatMaterial = new THREE.MeshPhongMaterial({ color: 0x8b4513 }); // Brown color for the boat
+    const boat = new THREE.Mesh(boatGeometry, boatMaterial);
+    boat.position.set(0, 0.5, 0); // Position the boat above the lake
+    scene.add(boat);
+
+    // Create trees around the lake
+    function createTree(x, z) {
+        const trunkGeometry = new THREE.CylinderGeometry(0.2, 0.2, 2); // Tree trunk
+        const trunkMaterial = new THREE.MeshPhongMaterial({ color: 0x8b4513 });
+        const trunk = new THREE.Mesh(trunkGeometry, trunkMaterial);
+
+        const foliageGeometry = new THREE.ConeGeometry(1, 2, 8); // Tree foliage
+        const foliageMaterial = new THREE.MeshPhongMaterial({ color: 0x228b22 }); // Green foliage
+        const foliage = new THREE.Mesh(foliageGeometry, foliageMaterial);
+
+        trunk.position.set(x, 1, z);
+        foliage.position.set(x, 3, z); // Position foliage above the trunk
+
+        scene.add(trunk);
+        scene.add(foliage);
+    }
+
+    // Add trees surrounding the lake
+    const treePositions = [
+        [-10, -15], [10, -15], [-15, 10], [15, 10], [-12, 5], [12, 5],
+        [-20, -10], [20, -10], [-25, 8], [25, 8]
+    ];
+
+    treePositions.forEach(pos => {
+        createTree(pos[0], pos[1]);
+    });
+
+    // Animation loop
+    function animate() {
+        requestAnimationFrame(animate);
+        boat.rotation.y += 0.01; // Rotate the boat for a simple animation
+        renderer.render(scene, camera);
+    }
+
+    animate();
+
+    // Handle window resizing
+    window.addEventListener('resize', function() {
+        const width = window.innerWidth;
+        const height = window.innerHeight;
+        renderer.setSize(width, height);
+        camera.aspect = width / height;
+        camera.updateProjectionMatrix();
+    });
+
+</script>
+
+</body>
+</html>
