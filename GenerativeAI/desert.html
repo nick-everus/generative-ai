@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Desert Scene at Sunset</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128/examples/js/controls/OrbitControls.js"></script>
+
+<script>
+    // Create the scene
+    const scene = new THREE.Scene();
+
+    // Create the camera
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera.position.set(0, 5, 15);
+
+    // Create the renderer
+    const renderer = new THREE.WebGLRenderer({ antialias: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    document.body.appendChild(renderer.domElement);
+
+    // Add lighting (sunset glow)
+    const sunsetLight = new THREE.DirectionalLight(0xffcc99, 1);
+    sunsetLight.position.set(-10, 10, -10);
+    scene.add(sunsetLight);
+
+    const ambientLight = new THREE.AmbientLight(0xffaa88, 0.3);
+    scene.add(ambientLight);
+
+    // Ground (Desert floor)
+    const groundGeometry = new THREE.PlaneGeometry(50, 50);
+    const groundMaterial = new THREE.MeshPhongMaterial({ color: 0xeeddaa });
+    const ground = new THREE.Mesh(groundGeometry, groundMaterial);
+    ground.rotation.x = -Math.PI / 2;
+    scene.add(ground);
+
+    // Create a plateau (using box geometry)
+    function createPlateau(x, z, width, height) {
+        const geometry = new THREE.BoxGeometry(width, height, width);
+        const material = new THREE.MeshPhongMaterial({ color: 0xcc9966 });
+        const plateau = new THREE.Mesh(geometry, material);
+        plateau.position.set(x, height / 2, z);
+        scene.add(plateau);
+    }
+
+    // Create a cactus (using cylinders for body and spheres for arms)
+    function createCactus(x, z) {
+        const bodyGeometry = new THREE.CylinderGeometry(0.3, 0.5, 3, 16);
+        const bodyMaterial = new THREE.MeshPhongMaterial({ color: 0x228B22 });
+        const body = new THREE.Mesh(bodyGeometry, bodyMaterial);
+        body.position.set(x, 1.5, z);
+
+        const armGeometry = new THREE.CylinderGeometry(0.15, 0.2, 1.5, 16);
+        const arm1 = new THREE.Mesh(armGeometry, bodyMaterial);
+        const arm2 = new THREE.Mesh(armGeometry, bodyMaterial);
+
+        arm1.rotation.z = Math.PI / 2;
+        arm2.rotation.z = Math.PI / 2;
+
+        arm1.position.set(x - 0.8, 2, z);
+        arm2.position.set(x + 0.8, 2, z);
+
+        scene.add(body, arm1, arm2);
+    }
+
+    // Add cacti to the scene
+    createCactus(2, -2);
+    createCactus(-5, -3);
+    createCactus(4, 3);
+    createCactus(-3, 5);
+
+    // Add plateaus to the scene
+    createPlateau(-10, -10, 6, 4);
+    createPlateau(12, 8, 10, 6);
+    createPlateau(-15, 15, 8, 5);
+
+    // OrbitControls for interactive camera movement
+    const controls = new THREE.OrbitControls(camera, renderer.domElement);
+
+    // Render loop
+    function animate() {
+        requestAnimationFrame(animate);
+        controls.update();
+        renderer.render(scene, camera);
+    }
+
+    animate();
+
+    // Handle window resizing
+    window.addEventListener('resize', () => {
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+    });
+</script>
+
+</body>
+</html>
