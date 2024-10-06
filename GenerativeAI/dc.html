@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Haurus</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: Arial, sans-serif;
+        }
+
+        /* Set the background image */
+        body {
+            background-image: url('https://www.example.com/bank-image.jpg'); /* Replace with a real bank image URL */
+            background-size: cover;
+            background-position: center;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Container to center the content */
+        .container {
+            text-align: center;
+            background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent background for visibility */
+            padding: 40px;
+            border-radius: 10px;
+        }
+
+        /* Title styling */
+        h1 {
+            margin-bottom: 40px;
+            font-size: 3rem;
+            color: #333;
+        }
+
+        /* Gallery of button images */
+        .gallery {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .gallery img {
+            width: 100px;
+            height: 100px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        /* Hover effect on button images */
+        .gallery img:hover {
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Haurus</h1>
+    <div class="gallery">
+        <!-- Button Image 1 -->
+        <img src="https://www.example.com/button1.jpg" alt="Button 1">
+        <!-- Button Image 2 -->
+        <img src="https://www.example.com/button2.jpg" alt="Button 2">
+        <!-- Button Image 3 -->
+        <img src="https://www.example.com/button3.jpg" alt="Button 3">
+    </div>
+</div>
+
+</body>
+</html>
