@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solar System with Orbiting Planets</title>
+    <style>
+        body { margin: 0; }
+        canvas { display: block; }
+    </style>
+</head>
+<body>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128/examples/js/controls/OrbitControls.js"></script>
+
+<script>
+    // Scene, camera, and renderer setup
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    const renderer = new THREE.WebGLRenderer({ antialias: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    document.body.appendChild(renderer.domElement);
+
+    // Orbit controls for interactivity
+    const controls = new THREE.OrbitControls(camera, renderer.domElement);
+    camera.position.set(0, 30, 50);
+    controls.update();
+
+    // Light setup
+    const light = new THREE.PointLight(0xffffff, 2, 1000);
+    light.position.set(0, 0, 0); // Sun as the light source
+    scene.add(light);
+
+    const ambientLight = new THREE.AmbientLight(0x404040); // Ambient light
+    scene.add(ambientLight);
+
+    // Create the Sun
+    const sunGeometry = new THREE.SphereGeometry(5, 32, 32);
+    const sunMaterial = new THREE.MeshBasicMaterial({ color: 0xffff00 });
+    const sun = new THREE.Mesh(sunGeometry, sunMaterial);
+    scene.add(sun);
+
+    // Function to create a planet
+    function createPlanet(size, color, distanceFromSun) {
+        const planetGeometry = new THREE.SphereGeometry(size, 32, 32);
+        const planetMaterial = new THREE.MeshPhongMaterial({ color: color });
+        const planet = new THREE.Mesh(planetGeometry, planetMaterial);
+
+        // Create an empty object (pivot point) to rotate around the Sun
+        const pivot = new THREE.Object3D();
+        pivot.add(planet);
+        planet.position.x = distanceFromSun;
+        scene.add(pivot);
+
+        return { planet, pivot };
+    }
+
+    // Create planets (sizes and distances are not to scale)
+    const mercury = createPlanet(0.5, 0xaaaaaa, 8);  // Mercury
+    const venus = createPlanet(0.7, 0xffcc66, 12);   // Venus
+    const earth = createPlanet(1, 0x3399ff, 16);     // Earth
+    const mars = createPlanet(0.6, 0xff3300, 20);    // Mars
+    const jupiter = createPlanet(2, 0xff9966, 28);   // Jupiter
+    const saturn = createPlanet(1.7, 0xffcc99, 36);  // Saturn
+    const uranus = createPlanet(1.5, 0x66ccff, 44);  // Uranus
+    const neptune = createPlanet(1.4, 0x3333cc, 50); // Neptune
+
+    // Add orbits (using a simple circle geometry for visualization)
+    function createOrbit(radius) {
+        const orbitGeometry = new THREE.RingGeometry(radius - 0.05, radius + 0.05, 64);
+        const orbitMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff, side: THREE.DoubleSide });
+        const orbit = new THREE.Mesh(orbitGeometry, orbitMaterial);
+        orbit.rotation.x = Math.PI / 2;
+        scene.add(orbit);
+    }
+
+    createOrbit(8);  // Mercury
+    createOrbit(12); // Venus
+    createOrbit(16); // Earth
+    createOrbit(20); // Mars
+    createOrbit(28); // Jupiter
+    createOrbit(36); // Saturn
+    createOrbit(44); // Uranus
+    createOrbit(50); // Neptune
+
+    // Animation loop to rotate planets around the Sun
+    function animate() {
+        requestAnimationFrame(animate);
+
+        // Rotate the planets (adjust speed for realism)
+        mercury.pivot.rotation.y += 0.04;
+        venus.pivot.rotation.y += 0.015;
+        earth.pivot.rotation.y += 0.01;
+        mars.pivot.rotation.y += 0.008;
+        jupiter.pivot.rotation.y += 0.002;
+        saturn.pivot.rotation.y += 0.0018;
+        uranus.pivot.rotation.y += 0.001;
+        neptune.pivot.rotation.y += 0.0009;
+
+        controls.update();
+        renderer.render(scene, camera);
+    }
+
+    animate();
+
+    // Handle window resize
+    window.addEventListener('resize', function() {
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+    });
+</script>
+
+</body>
+</html>
