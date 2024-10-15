@@ -8,18 +8,48 @@
     <style>
         body { margin: 0; }
         canvas { display: block; }
-        h1 {
-            text-align: center;
-        }       
-        .h1 { black }
+        h1 { text-align: center; color: #DDDDDD; font-size: 28px; font-family: Cursive; }        
     </style>
 </head>
-<body>
-<h1>Welcome to Haurus ( DC / NYC ), coded by AI prompts -> ( AWS, GCP, Azure ) w/ various Models. @2024</h1>
+<<body class="starry-background">
+<h1>Welcome to Haurus ( DC <-> NYC ), coded by AI prompts << All Major LLM's @2024</h1>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128/examples/js/controls/OrbitControls.js"></script>
+<style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+        
+        .starry-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000000; /* Deep space color */
+            background-image: 
+                radial-gradient(2px 2px at 20px 30px, #ffffff, rgba(255,255,255,0)),
+                radial-gradient(2px 2px at 40px 80px, #ffffff, rgba(255,255,255,0)),
+                radial-gradient(2px 2px at 60px 120px, #ffffff, rgba(255,255,255,0)),
+                radial-gradient(2px 2px at 80px 160px, #ffffff, rgba(255,255,255,0)),
+                radial-gradient(2px 2px at 100px 200px, #ffffff, rgba(255,255,255,0));
+            background-size: 200px 200px;
+            background-position: 0 0, 10px 10px, 20px 20px, 30px 30px, 40px 40px;
+            animation: moveStars 60s linear infinite;
+        }
 
+        @keyframes moveStars {
+            from {
+                background-position: 0 0, 10px 10px, 20px 20px, 30px 30px, 40px 40px;
+            }
+            to {
+                background-position: -200px -200px, -190px -190px, -180px -180px, -170px -170px, -160px -160px;
+            }
+        }
+</style>
 <script>
     // Scene, camera, and renderer setup
     const scene = new THREE.Scene();
