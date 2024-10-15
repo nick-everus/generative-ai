@@ -1,0 +1,58 @@
+To view keyboard shortcuts, press question mark
+View keyboard shortcuts
+
+See new posts
+
+please create a repeating star background for an html page with css
+Answer
+Here's how you can create a repeating star background for an HTML page using CSS:
+
+html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Starry Background</title>
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+        
+        .starry-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000000; /* Deep space color */
+            background-image: 
+                radial-gradient(2px 2px at 20px 30px, #ffffff, rgba(255,255,255,0)),
+                radial-gradient(2px 2px at 40px 80px, #ffffff, rgba(255,255,255,0)),
+                radial-gradient(2px 2px at 60px 120px, #ffffff, rgba(255,255,255,0)),
+                radial-gradient(2px 2px at 80px 160px, #ffffff, rgba(255,255,255,0)),
+                radial-gradient(2px 2px at 100px 200px, #ffffff, rgba(255,255,255,0));
+            background-size: 200px 200px;
+            background-position: 0 0, 10px 10px, 20px 20px, 30px 30px, 40px 40px;
+            animation: moveStars 60s linear infinite;
+        }
+
+        @keyframes moveStars {
+            from {
+                background-position: 0 0, 10px 10px, 20px 20px, 30px 30px, 40px 40px;
+            }
+            to {
+                background-position: -200px -200px, -190px -190px, -180px -180px, -170px -170px, -160px -160px;
+            }
+        }
+    </style>
+</head>
+<body class="starry-background">
+    <div style="color: white; text-align: center; padding: 20px; z-index: 10; position: relative;">
+        <h1>Welcome to the Starry Background</h1>
+        <p>This is a demonstration of a background with moving stars.</p>
+    </div>
+</body>
+</html>
