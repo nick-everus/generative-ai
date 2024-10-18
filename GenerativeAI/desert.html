@@ -102,6 +102,18 @@
         camera.aspect = window.innerWidth / window.innerHeight;
         camera.updateProjectionMatrix();
     });
+
+    import { GLTFExporter } from 'three/examples/jsm/exporters/GLTFExporter.js';
+
+    const exporter = new GLTFExporter();
+    exporter.parse(scene, function (result) {
+    const blob = new Blob([JSON.stringify(result)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'scene.gltf';
+    a.click();
+});
 </script>
 
 </body>
